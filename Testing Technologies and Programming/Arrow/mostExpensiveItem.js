@@ -1,36 +1,17 @@
-//Coding Task 1
+//Coding Task 3
 
+// Write a function expression called mostExpensiveItem(). 
+//It should accept an array of items as a single argument. 
+//It should return the item that has the most cost tied up, calculated by the amount in stock * price.
 
-// Building the function that reverses the input text
-function reverseString(str){ 
-    const reversedString =  str.split("").reduce((acc, char) => char + acc, ""); //splits the string and rebuilts it reversed
-    console.log(reversedString); 
-} 
-reverseString("John"); 
-reverseString("James");
-reverseString("TENET");
-reverseString("Notis")
+// Test Data
+[
+   { item: "irn bru", price: 3.25, stock: 50 },
+   { item: "fanta", price: 3.98, stock: 45 },
+   { item: "diet coke", price: 4.40, stock: 38 }, 
+   { item: "7up", price: 3.99, stock: 42 }, 
+]
 
-
-//Coding Task 2 
-
-function reverseArray(array) {
-    const reversed = [];
-    for (let i = array.length - 1; i >= 0; i--) {
-      reversed.push(array[i]); 
-    }
-    return reversed;
-  }
-
-// Returned Arrays const:
-const reversedNumbers = reverseArray([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-const reversedWords = reverseArray(["I", "like", "JavaScript"]);
-
-// Reversed Arrays log:
-console.log(reversedNumbers); 
-console.log(reversedWords); 
-
-// 
 
 // Sample Data
 const inventory = [

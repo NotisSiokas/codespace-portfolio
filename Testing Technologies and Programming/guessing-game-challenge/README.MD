@@ -1,6 +1,10 @@
 # Guess the Number Game
 
-This is a simple number guessing game built with HTML, CSS, and JavaScript.
+This is a simple number guessing game built mostly in JavaScript and HTML.
+
+Part of 1 hour coding challenge for Testing Technologies and Programming Course held by Jorge.
+
+
 
 ## How to Play
 
@@ -11,8 +15,12 @@ This is a simple number guessing game built with HTML, CSS, and JavaScript.
 5. Keep guessing until you get it right.
 6. The input box will be cleared after each attempt.
 
+If you cant to play again, please reload the browser page!
+
 ## Code Overview
 
-* **index.html:** Contains the game's structure (textbox, button, result display).
-* **style.css:** Styles the game elements.
+* **index.html:** Contains the Front-end game's structure (Titles, textbox, button, results).
+* **style.css:** Styles index elements. (Will be updated soon!)
 * **script.js:** Handles the game logic.
+
+Made by Notis Siokas 

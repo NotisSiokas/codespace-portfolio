@@ -4,7 +4,9 @@ This is a simple number guessing game built mostly in JavaScript and HTML.
 
 Part of 1 hour coding challenge for Testing Technologies and Programming Course held by Jorge.
 
+<iframe src="https://giphy.com/embed/HhjgMmTOQ5VK53J3V7" width="480" height="242" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/HhjgMmTOQ5VK53J3V7">via GIPHY</a></p>
 
+This is a simple number guessing game... 
 
 ## How to Play
 

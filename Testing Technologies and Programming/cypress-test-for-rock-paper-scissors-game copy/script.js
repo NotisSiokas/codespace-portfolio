@@ -56,7 +56,7 @@ function playGame(userOption) {
     // Just for debug
     console.log(computerOption)
     // Set the computer option
-    computerOptionSpan.innerHTML = computerOption;
+    computerOptionSpan.innerHTML = computerOption
 
     // Compare the options
     // A Draw

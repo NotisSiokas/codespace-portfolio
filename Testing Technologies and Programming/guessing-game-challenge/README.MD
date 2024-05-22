@@ -2,12 +2,12 @@
 
 This is a simple number guessing game built mostly in JavaScript and HTML.
 
-Part of 1 hour coding challenge for Testing Technologies and Programming Course held by Jorge.
+Part of 1-hour-coding challenge for Testing Technologies and Programming Course held by Jorge.
+
+Made by Notis Siokas
 
 ![Thinking GIF](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNWM1YThjYWNuenJhejJ4MWF3aDljdXJqM3NrNWhtZ3JiNzQzdWJkOCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/HhjgMmTOQ5VK53J3V7/giphy.gif)
 
-
-This is a simple number guessing game... 
 
 ## How to Play
 
@@ -25,5 +25,3 @@ If you cant to play again, please reload the browser page!
 * **index.html:** Contains the Front-end game's structure (Titles, textbox, button, results).
 * **style.css:** Styles index elements. (Will be updated soon!)
 * **script.js:** Handles the game logic.
-
-Made by Notis Siokas 

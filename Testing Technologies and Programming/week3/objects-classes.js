@@ -10,5 +10,7 @@ class Car {
   }
 
   const myCar = new Car('Toyota', 'C-HR');
+
+  
 console.log(myCar.make); // Output: Toyota
 myCar.drive(); // Output: Vroom!

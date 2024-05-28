@@ -34,8 +34,10 @@ class Animal {
   // Create a new instance of the Dog class with the name 'Buddy'
 const myDog = new Dog('Buddy');
 const myCat = new Cat('Kitty');
+const myAnimal = new Animal('BigAnimal')
 
 // Call the speak method on the 'myDog' instance
 // This will output a message indicating that 'Buddy' barks
 myDog.speak(); // Output: Buddy barks.
 myCat.speak();
+myAnimal.speak();

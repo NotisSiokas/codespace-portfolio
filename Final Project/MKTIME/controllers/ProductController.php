@@ -1,12 +1,15 @@
 <?php
+// File: controllers/ProductsController.php
+
 require_once '../connect_db.php';
 require_once '../models/Product_Class.php';
 
 class ProductController {
     private $productModel;
 
-    public function __construct($db) {
-        $this->productModel = new Product_Class($db);
+    public function __construct() { // No need for $db parameter
+        global $link; // Get the MySQLi connection from connect_db.php
+        $this->productModel = new Product_Class($link);
     }
 
     public function displayAllProducts() {
@@ -25,15 +28,14 @@ class ProductController {
     }
 }
 
-// Instantiate the controller
-$db = new PDO('mysql:host=localhost:2306;dbname=mktime_db', 'root', ''); // Adjust the connection parameters
-$controller = new ProductController($db);
+// Instantiate the controller (no need to pass $db)
+$controller = new ProductController();
 
-// Routing Logic
+// Routing Logic (same as before)
 $action = $_GET['action'] ?? 'displayAll';
 
 if ($action == 'displayAll') {
-    $controller->displayAllProducts(); // Call the method on the controller object
+    $controller->displayAllProducts();
 } elseif ($action == 'displaySingle' && isset($_GET['id'])) {
-    $controller->displaySingleProduct((int)$_GET['id']);
+    $controller->displaySingleProduct((int)$_GET['id']); // Cast to int for security
 }

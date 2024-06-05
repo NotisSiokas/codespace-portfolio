@@ -23,7 +23,8 @@ class UserController {
         $password = $_POST['password'] ?? '';
         $confirmPassword = $_POST['confirm_password'] ?? '';
 
-        // Input validation (You'll likely add more robust validation)
+
+        // Input validation
         if (empty($firstName) || empty($lastName) || empty($email) || empty($password) || $password !== $confirmPassword) {
             // Pass error message as query parameter
             header("Location: ../views/register.php?error=" . urlencode("Please fill in all fields correctly and ensure passwords match."));

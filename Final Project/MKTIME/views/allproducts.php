@@ -71,7 +71,7 @@ if (mysqli_num_rows($r) > 0): ?>
 <?php else: ?> <div class="col-12 text-center">
     <p class="lead text-center">There are currently no items in the table to display.</p>
 </div>
-<?php endif; ?>  // ... (Close the database connection and include footer)
+<?php endif; ?>
 
 <?php
 // Close the database connection

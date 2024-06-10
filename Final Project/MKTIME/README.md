@@ -42,6 +42,10 @@ MKTIME is a prestigious retailer based in Scotland, specializing in the sale of 
     - HTML
     - CSS (with Bootstrap for styling)
     - JavaScript 
+- **Database Tools:**
+  - MySQL
+  - phpMyAdmin
+  - dbdiagram.io
 - **Testing:**
     - Cypress for end-to-end testing (work in progress)
 
@@ -54,6 +58,17 @@ MKTIME is a prestigious retailer based in Scotland, specializing in the sale of 
 - **`public/`:** Stores the main HTML, CSS, and JavaScript files for the frontend.
 - **`views/`:** Contains PHP view files responsible for rendering HTML output.
 - **`connect_db.php`:**  Handles database connection configuration.
+
+## Database Structure
+
+The project utilizes a relational database (MySQL) with the following tables:
+
+- `users`
+- `user_details`
+- `products`
+- `orders`
+- `order_details`
+- `order_history`
 
 ## Setup Instructions
 

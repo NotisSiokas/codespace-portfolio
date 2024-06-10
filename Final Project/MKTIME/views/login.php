@@ -3,7 +3,7 @@ include_once 'navbar.php';
 include_once 'header.php';
 include_once('../functions/login_tools.php');
 
-// Start the session at the beginning (IMPORTANT for handling session data)
+// Start the session at the beginning
 start_session_function();
 
 // Display any error messages if present
@@ -13,7 +13,7 @@ if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])) {
         echo " - $msg<br>";
     }
     echo 'Please try again or <a href="register.php">Register</a></p>';
-    unset($_SESSION['errors']); // Clear errors after displaying
+    unset($_SESSION['errors']);
 }
 ?>
 

@@ -1,9 +1,8 @@
 <?php
 // File: login_tools.php
 
-# Function to load specified or default URL.
 function load($page = 'login.php') {
-    // Get the base URL dynamically (http or https)
+    // Get the base URL dynamically
     $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
 
     // Define the correct path to your views folder
@@ -31,10 +30,10 @@ function validate($link, $email = '', $pwd = '')
     if (empty($pwd)) {
         $errors[] = 'Enter your password.';
     } else {
-        $password = trim($pwd); // No need to escape for password_verify
+        $password = trim($pwd);
     }
 
-    # Validate credentials against the database (using User_Class)
+    # Validate credentials against the database
     if (empty($errors)) {
         require_once '../models/User_Class.php';
         $userClass = new User_Class($link);

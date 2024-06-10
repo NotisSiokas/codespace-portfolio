@@ -7,8 +7,8 @@ require_once '../models/Product_Class.php';
 class ProductController {
     private $productModel;
 
-    public function __construct() { // No need for $db parameter
-        global $link; // Get the MySQLi connection from connect_db.php
+    public function __construct() {
+        global $link;
         $this->productModel = new Product_Class($link);
     }
 
@@ -37,5 +37,5 @@ $action = $_GET['action'] ?? 'displayAll';
 if ($action == 'displayAll') {
     $controller->displayAllProducts();
 } elseif ($action == 'displaySingle' && isset($_GET['id'])) {
-    $controller->displaySingleProduct((int)$_GET['id']); // Cast to int for security
+    $controller->displaySingleProduct((int)$_GET['id']);
 }

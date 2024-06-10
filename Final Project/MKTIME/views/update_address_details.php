@@ -9,7 +9,7 @@ include_once 'header.php';
 
 // Include necessary files
 require_once '../models/UserDetails_Class.php';
-require_once '../connect_db.php'; // Include the database connection file
+require_once '../connect_db.php';
 
 // Initialize UserDetails object
 $userDetails = new UserDetails_Class($link);

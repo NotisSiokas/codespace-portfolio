@@ -1,20 +1,19 @@
 <?php
-// Start or resume the session
+// Starting or resuming the session
 global $link;
 session_start();
 
-// Include necessary files
 require_once '../models/UserDetails_Class.php';
-require_once '../connect_db.php'; // Include the database connection file
+require_once '../connect_db.php';
 
-// Check if the user is logged in
+// Checking if the user is logged in
 if (!isset($_SESSION['user_id'])) {
-    // Redirect to login page if not logged in
+    // Redirecting to login page if not logged in
     header("Location: login.php");
     exit();
 }
 
-// Check if form data is submitted
+// Checking if form data is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve form data
     $street_address = $_POST['street_address'];
@@ -26,10 +25,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Initialize UserDetails object
     $userDetails = new UserDetails_Class($link);
 
-    // Update address details
+    // Updating address details
     $updateResult = $userDetails->updateUserDetails($_SESSION['user_id'], $street_address, $address_line_2, $city, $postal_code, $phone_number);
 
-    // Check if update was successful
+    // Checking if update was successful
     if ($updateResult === 1) {
         // Redirect to profile page with success message
         $_SESSION['success_message'] = "Your address details have been updated successfully.";

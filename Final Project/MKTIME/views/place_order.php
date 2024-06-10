@@ -4,7 +4,7 @@
 global $link;
 session_start();
 
-// Check if the user is logged in
+// Checking if the user is logged in
 if (!isset($_SESSION['user_id'])) {
     header('Location: ../views/login.php');
     exit();
@@ -19,9 +19,9 @@ include '../views/head.php';
 include '../views/navbar.php';
 include '../views/header.php';
 
-$orderPlaced = false; // Flag to track if order placement is successful
+$orderPlaced = false;
 
-// Check if the form was submitted and the cart is not empty
+// Checingk if the form was submitted and the cart is not empty
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_SESSION['cart'])) {
     // Get the total from the form
     $total = $_POST['total'];
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_SESSION['cart'])) {
     $orderId = $orderModel->createOrder($_SESSION['user_id'], $total);
 
     if ($orderId) {
-        // Add order details (from the cart)
+        // Add order details
         $orderDetailsModel = new OrderDetails_Class($link);
         foreach ($_SESSION['cart'] as $productId => $item) {
             $orderDetailsModel->createOrderDetail($orderId, $productId, $_SESSION['user_id'], $item['quantity'], $item['price']);
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_SESSION['cart'])) {
 
         // Clear the cart
         unset($_SESSION['cart']);
-        $orderPlaced = true; // Order placed successfully
+        $orderPlaced = true;
 
     } else {
         $errorMessage = "Error placing order. Please try again.";

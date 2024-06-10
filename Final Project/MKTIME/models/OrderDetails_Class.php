@@ -17,7 +17,7 @@ class OrderDetails_Class
         $stmt = $this->link->prepare("INSERT INTO order_details (order_id, product_id, user_id, quantity, price) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param("iiiid", $orderId, $productId, $userId, $quantity, $price);
         $stmt->execute();
-        return $stmt->insert_id; // Return the ID of the new order detail
+        return $stmt->insert_id;
     }
 
     // READ
@@ -27,7 +27,7 @@ class OrderDetails_Class
         $stmt->bind_param("i", $orderId);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC); // Return all order details for the order
+        return $result->fetch_all(MYSQLI_ASSOC); 
     }
 
     public function getOrderDetailById($orderDetailId)
@@ -36,7 +36,7 @@ class OrderDetails_Class
         $stmt->bind_param("i", $orderDetailId);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_assoc(); // Return a single order detail
+        return $result->fetch_assoc();
     }
 
     // UPDATE
@@ -45,7 +45,7 @@ class OrderDetails_Class
         $stmt = $this->link->prepare("UPDATE order_details SET quantity = ?, price = ? WHERE id = ?");
         $stmt->bind_param("idi", $quantity, $price, $orderDetailId);
         $stmt->execute();
-        return $stmt->affected_rows; // Returns the number of rows affected
+        return $stmt->affected_rows;
     }
 
     // DELETE
@@ -54,6 +54,6 @@ class OrderDetails_Class
         $stmt = $this->link->prepare("DELETE FROM order_details WHERE id = ?");
         $stmt->bind_param("i", $orderDetailId);
         $stmt->execute();
-        return $stmt->affected_rows; // Returns the number of rows affected
+        return $stmt->affected_rows;
     }
 }

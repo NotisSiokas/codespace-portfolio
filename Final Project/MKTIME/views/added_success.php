@@ -1,9 +1,9 @@
 <?php
 // File: views/added_success.php
 
-include '../views/head.php'; // Include your head file containing HTML head elements
+include '../views/head.php';
 include '../views/navbar.php';
-include '../views/header.php'; // Include your header file
+include '../views/header.php';
 
 // Get the product name from the URL parameter
 $product_name = $_GET['product_name'] ?? '';
@@ -23,4 +23,4 @@ $product_name = $_GET['product_name'] ?? '';
 </div>
 
 
-<?php include 'footer.php'; // Include your footer file ?>
+<?php include 'footer.php'; ?>

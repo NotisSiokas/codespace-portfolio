@@ -7,8 +7,8 @@
                     <h1 class="display-4 fw-bolder"><?php echo $headerData['title']; ?></h1>
                     <p class="lead fw-normal text-white-50 mb-0"><?php echo $headerData['subtitle']; ?></p>
                 <?php else: ?>
-                    <h1 class="display-4 fw-bolder">MKTime,  now it's the time!</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">to buy some time..</p>
+                    <h1 class="display-4 fw-bolder">MKTime,  now's the time..</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">to buy some time!</p>
                 <?php endif; ?>
             </div>
         </div>

@@ -3,7 +3,7 @@
 global $link;
 session_start();
 
-// Check if the user is logged in
+// Checking if the user is logged in
 if (!isset($_SESSION['user_id'])) {
     // Redirect to login page if not logged in
     header("Location: login.php");
@@ -17,7 +17,7 @@ include_once 'header.php';
 // Include necessary files
 require_once '../models/User_Class.php';
 require_once '../models/UserDetails_Class.php';
-require_once '../connect_db.php'; // Include the database connection file
+require_once '../connect_db.php';
 
 // Initialize User and UserDetails objects
 $user = new User_Class($link);

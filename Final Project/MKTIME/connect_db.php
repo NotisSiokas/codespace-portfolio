@@ -1,20 +1,19 @@
 <?php
 // File: connect_db.php
 
-// Database Configuration (Replace with your actual credentials)
-$dbHost = 'localhost:2306';     // Or your database server address
-$dbUser = 'root';         // Your MySQL username
-$dbPass = '';             // Your MySQL password (likely empty if using XAMPP/MAMP)
-$dbName = 'mktime_db';     // Your database name
+// Database Configuration
+$dbHost = 'localhost:2306';
+$dbUser = 'root';
+$dbPass = '';
+$dbName = 'mktime_db';
 
-// Create a MySQLi connection (use 'mysql' for MySQL)
-$link = mysqli_connect($dbHost, $dbUser, $dbPass, $dbName); // Use $link for consistency
+// Creating MySQLi connection
+$link = mysqli_connect($dbHost, $dbUser, $dbPass, $dbName);
 
-// Check connection
+// Checking connection
 if (!$link) {
-    error_log("Connection failed: " . mysqli_connect_error()); // Log the error
-    die("Error connecting to database. Please try again later."); // Generic message for user
+    error_log("Connection failed: " . mysqli_connect_error());
+    die("Error connecting to database. Please try again later.");
 }
 
-// Optional: Set character encoding for UTF-8 support
-mysqli_set_charset($link, "utf8"); // Use $link
+mysqli_set_charset($link, "utf8");

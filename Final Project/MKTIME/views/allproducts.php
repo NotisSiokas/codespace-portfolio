@@ -1,16 +1,16 @@
 <?php
 // File: views/allproducts.php
 
-// Include essential files
+
 global $link;
 include 'head.php';
 include 'navbar.php';
 include 'header.php';
 
-// Ensure Bootstrap icons are included
+
 echo '<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />';
 
-// Database connection
+
 require '../connect_db.php';
 
 // Fetch products from the database
@@ -58,7 +58,6 @@ if (mysqli_num_rows($r) > 0): ?>
 <?php endif; ?>
 
 <?php
-// Close the database connection
 mysqli_close($link);
 
 include 'footer.php';

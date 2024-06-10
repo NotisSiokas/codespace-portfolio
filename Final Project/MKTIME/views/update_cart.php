@@ -11,15 +11,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 if ($quantity > 0) {
                     $_SESSION['cart'][$productId]['quantity'] = $quantity;
                 } else {
-                    unset($_SESSION['cart'][$productId]); // Remove if quantity is 0
+                    unset($_SESSION['cart'][$productId]);
                 }
             }
         } elseif (strpos($action, 'remove_') === 0) {
             // Remove item from cart
-            $productId = substr($action, 7); // Get product ID from button value
+            $productId = substr($action, 7);
             unset($_SESSION['cart'][$productId]);
         }
     }
 }
-header('Location: ../views/cart.php'); // Redirect back to the cart after update
+header('Location: ../views/cart.php');
 exit();

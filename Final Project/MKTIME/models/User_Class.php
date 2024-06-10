@@ -2,7 +2,7 @@
 // File: models/User_Class.php
 
 class User_Class {
-    private $link; // MySQLi database connection
+    private $link;
 
     public function __construct($db) {
         $this->link = $db;
@@ -11,25 +11,25 @@ class User_Class {
     // CREATE
     public function createUser($firstName, $lastName, $email, $passwordHash) {
         $stmt = $this->link->prepare("INSERT INTO users (first_name, last_name, email, password_hash) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("ssss", $firstName, $lastName, $email, $passwordHash); // Bind parameters
+        $stmt->bind_param("ssss", $firstName, $lastName, $email, $passwordHash);
         $stmt->execute();
 
-        return $stmt->insert_id; // Get the ID of the newly inserted user
+        return $stmt->insert_id;
     }
 
     // READ
     public function getUserById($userId) {
-        $stmt = $this->link->prepare("SELECT * FROM users WHERE id = ?"); // Query the users table
-        $stmt->bind_param("i", $userId); // Bind parameter as integer
+        $stmt = $this->link->prepare("SELECT * FROM users WHERE id = ?");
+        $stmt->bind_param("i", $userId);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_assoc(); // Return user details as an associative array
+        return $result->fetch_assoc();
     }
 
 
     public function getUserByEmail($email) {
         $stmt = $this->link->prepare("SELECT * FROM users WHERE email = ?");
-        $stmt->bind_param("s", $email); // Bind parameter as string
+        $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_assoc();
@@ -38,16 +38,16 @@ class User_Class {
     // UPDATE
     public function updateUser($id, $firstName, $lastName, $email) {
         $stmt = $this->link->prepare("UPDATE users SET first_name = ?, last_name = ?, email = ? WHERE id = ?");
-        $stmt->bind_param("sssi", $firstName, $lastName, $email, $id); // Bind parameters (string, string, string, integer)
+        $stmt->bind_param("sssi", $firstName, $lastName, $email, $id);
         $stmt->execute();
-        return $stmt->affected_rows; // Returns the number of rows affected
+        return $stmt->affected_rows;
     }
 
     // DELETE
     public function deleteUser($id) {
         $stmt = $this->link->prepare("DELETE FROM users WHERE id = ?");
-        $stmt->bind_param("i", $id); // Bind parameter as integer
+        $stmt->bind_param("i", $id);
         $stmt->execute();
-        return $stmt->affected_rows; // Returns the number of rows affected
+        return $stmt->affected_rows;
     }
 }

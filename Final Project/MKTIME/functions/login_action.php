@@ -3,16 +3,15 @@
 // File: login_action.php
 
 global $link;
-require_once('../connect_db.php');  // Your database connection file
-require_once('login_tools.php');  // Your utility functions for validation and redirection
+require_once('../connect_db.php');
+require_once('login_tools.php');
 
-// Start or resume the session safely
 start_session_function();
 
 // Form submission check
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    // Get submitted email and password (sanitize for security)
+    // Getting submitted email and password
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
     $password = $_POST['password'];
 
@@ -28,16 +27,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['last_name'] = $userData['last_name'];
 
         // Load the home page or protected area
-        load('allproducts.php'); // or your protected page
+        load('allproducts.php');
     } else {
         // Invalid credentials
         $_SESSION['errors'] = array('Invalid email or password.');
-        load('login.php'); // Redirect back to login form with error
+        load('login.php');
     }
 
-    // Close the database connection (important!)
+    // Close the database connection
     mysqli_close($link);
 } else {
-    load('login.php'); // If accessed directly, redirect to login page
+    load('login.php');
 }
 ?>

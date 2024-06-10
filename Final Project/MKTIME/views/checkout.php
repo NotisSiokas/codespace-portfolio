@@ -20,7 +20,7 @@ include '../views/head.php';
 include '../views/navbar.php';
 include '../views/header.php';
 
-// Check if cart is empty
+// Checking if cart is empty
 if (empty($_SESSION['cart'])) {
     header('Location: cart.php');  // Redirect to cart if empty
     exit();

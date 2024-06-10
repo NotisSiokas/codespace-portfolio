@@ -10,16 +10,16 @@ class Order_Class {
 
     // CREATE
     public function createOrder($userId, $total, $orderStatus = 'pending') {
-        $orderDate = date('Y-m-d H:i:s'); // Current timestamp for order date
+        $orderDate = date('Y-m-d H:i:s');
         $stmt = $this->link->prepare("INSERT INTO orders (user_id, total, order_date, order_status) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("idss", $userId, $total, $orderDate, $orderStatus);
         $stmt->execute();
 
         // Check for successful insertion
         if ($stmt->affected_rows > 0) {
-            return $stmt->insert_id; // Return the ID of the new order
+            return $stmt->insert_id;
         } else {
-            error_log("Error creating order: " . $stmt->error); // Log the error if any
+            error_log("Error creating order: " . $stmt->error);
             return false;
         }
     }
@@ -30,7 +30,7 @@ class Order_Class {
         $stmt->bind_param("i", $userId);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC); // Return all orders for the user
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 
     public function getOrderById($orderId) {
@@ -46,7 +46,7 @@ class Order_Class {
         $stmt = $this->link->prepare("UPDATE orders SET order_status = ? WHERE id = ?");
         $stmt->bind_param("si", $newStatus, $orderId);
         $stmt->execute();
-        return $stmt->affected_rows; // Returns the number of rows affected (should be 1)
+        return $stmt->affected_rows;
     }
 
     // DELETE

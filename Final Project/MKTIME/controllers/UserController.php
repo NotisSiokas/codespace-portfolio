@@ -3,14 +3,14 @@
 
 require_once '../models/User_Class.php';
 require_once '../models/UserDetails_Class.php';
-require_once '../connect_db.php'; // Include the database connection file
+require_once '../connect_db.php';
 
 class UserController {
     private $user;
     private $userDetails;
 
     public function __construct() {
-        global $link; // Get the MySQLi connection from connect_db.php
+        global $link;
         $this->user = new User_Class($link);
         $this->userDetails = new UserDetails_Class($link);
     }
@@ -49,9 +49,7 @@ class UserController {
             try {
                 $this->userDetails->createUserDetails($userId, $_POST['street_address'] ?? '', $_POST['address_line_2'] ?? '', $_POST['city'] ?? '', $_POST['postal_code'] ?? '', $_POST['phone_number'] ?? '');
             } catch (Exception $e) {
-                // Handle user details creation error (e.g., log the error)
-                // You might decide to still show the registration success message
-                // but inform the user that details could not be saved
+
                 error_log("User details creation failed: " . $e->getMessage());
             }
 
@@ -59,15 +57,14 @@ class UserController {
             header("Location: ../views/register.php?success=" . urlencode("Registration successful!"));
 
         } catch (Exception $e) {
-            // Handle user creation error (e.g., log the error)
+            // Handle user creation error
             error_log("User creation failed: " . $e->getMessage());
             // Redirect to error page
             header("Location: ../views/register.php?error=" . urlencode("Registration failed. Please try again."));
-            // Redirect to success page (you might want a dedicated success page later)
+            // Redirect to success page
             header("Location: ../views/register.php?success=" . urlencode("Registration successful!"));
 
-        } catch (Exception $e) { // Catch any exceptions (including potential database errors)
-            // Pass error message as query parameter
+        } catch (Exception $e) {
             header("Location: ../views/register.php?error=" . urlencode("Registration failed. Please try again."));
         }
     }

@@ -36,11 +36,11 @@ $productModel = new Product_Class($link); // Instantiate outside the loop
                     <table class="table table-bordered">
                         <tbody>
                         <?php foreach ($_SESSION['cart'] as $productId => $item):
-                            $product = $productModel->getProductById($productId); // Now use the existing model
+                            $product = $productModel->getProductById($productId);
 
                             // Check if product exists
                             if ($product) {
-                                $subtotal = $item['quantity'] * $product['price']; // Use the database price
+                                $subtotal = $item['quantity'] * $product['price'];
                                 $total += $subtotal;
                                 ?>
                                 <tr>

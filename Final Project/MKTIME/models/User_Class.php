@@ -18,13 +18,14 @@ class User_Class {
     }
 
     // READ
-    public function getUserById($id) {
-        $stmt = $this->link->prepare("SELECT * FROM users WHERE id = ?");
-        $stmt->bind_param("i", $id); // Bind parameter as integer
+    public function getUserById($userId) {
+        $stmt = $this->link->prepare("SELECT * FROM users WHERE id = ?"); // Query the users table
+        $stmt->bind_param("i", $userId); // Bind parameter as integer
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_assoc();
+        return $result->fetch_assoc(); // Return user details as an associative array
     }
+
 
     public function getUserByEmail($email) {
         $stmt = $this->link->prepare("SELECT * FROM users WHERE email = ?");

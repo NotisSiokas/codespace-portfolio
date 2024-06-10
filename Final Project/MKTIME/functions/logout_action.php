@@ -16,7 +16,10 @@ if (ini_get("session.use_cookies")) {
 }
 session_destroy();
 
+// Clear the cart session
+unset($_SESSION['cart']);
+
 // Redirect to login page
 header("Location: ../views/login.php");
 exit();
-
+?>

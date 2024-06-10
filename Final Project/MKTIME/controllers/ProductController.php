@@ -28,10 +28,10 @@ class ProductController {
     }
 }
 
-// Instantiate the controller (no need to pass $db)
+// Instantiate the controller
 $controller = new ProductController();
 
-// Routing Logic (same as before)
+// Routing Logic
 $action = $_GET['action'] ?? 'displayAll';
 
 if ($action == 'displayAll') {

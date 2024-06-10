@@ -9,8 +9,8 @@ MKTIME is a PHP-based e-commerce project utilizing the Model-View-Controller (MV
 MKTIME is a prestigious retailer based in Scotland, specializing in the sale of high-quality Swiss watches. To expand its reach and increase sales, MKTIME aims to establish a robust online presence through a sophisticated eCommerce web application. The project focuses on creating a user-friendly platform that showcases MKTIME's collection of luxury timepieces and provides a seamless shopping experience across various devices.
 
 ![MKTIME Screenshot 1](assets/images/mktimescreenshot1.jpeg)
-![MKTIME Screenshot 1](assets/images/mktimescreenshot3.jpeg)
-![MKTIME Screenshot 1](assets/images/mktimescreenshot2.jpeg)
+![MKTIME Screenshot 3](assets/images/mktimescreenshot3.jpeg)
+![MKTIME Screenshot 2](assets/images/mktimescreenshot2.jpeg)
 
 
 

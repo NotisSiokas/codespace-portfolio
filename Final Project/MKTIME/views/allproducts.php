@@ -21,6 +21,14 @@ $r = mysqli_query($link, $q);
 if (mysqli_num_rows($r) > 0): ?>
     <section class="py-5">
         <div class="container px-4 px-lg-5 mt-5">
+
+        <?php
+        if (isset($_SESSION['success_msg']) && !empty($_SESSION['success_msg'])) {
+            echo '<div class="alert alert-success">' . $_SESSION['success_msg'] . '</div>';
+            // Unset the message after displaying to avoid repetition
+            unset($_SESSION['success_msg']);
+        }
+        ?>
             <h2 class="fw-bolder mb-4 text-center">All Products</h2>
 
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
@@ -36,7 +44,7 @@ if (mysqli_num_rows($r) > 0): ?>
                     <div class="col mb-5">
                         <div class="card h-100">
                             <?php if (file_exists($imagePath)): ?>
-                                <img src="/MKTIME/assets/images/<?= htmlspecialchars($imageFileName); ?>" class="card-img-top" alt="<?= htmlspecialchars($product['name']); ?>">
+                                <img src="/assets/images/<?= htmlspecialchars($imageFileName); ?>" class="card-img-top" alt="<?= htmlspecialchars($product['name']); ?>">
                             <?php else: ?>
                                 <img src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" class="card-img-top" alt="Image Not Found">
                             <?php endif; ?>

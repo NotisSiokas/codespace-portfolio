@@ -50,4 +50,15 @@ class User_Class {
         $stmt->execute();
         return $stmt->affected_rows;
     }
+
+    public function getAllUsers() {
+        $stmt = $this->link->prepare("SELECT * FROM users");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $users = [];
+        while ($row = $result->fetch_assoc()) {
+            $users[] = $row;
+        }
+        return $users;
+    }
 }

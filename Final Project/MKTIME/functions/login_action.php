@@ -26,7 +26,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['first_name'] = $userData['first_name'];
         $_SESSION['last_name'] = $userData['last_name'];
 
-        // Load the home page or protected area
+        // Set a success message for the login page (optional)
+        $_SESSION['success_msg'] = 'Login successful! Welcome back!';
+
+        // Load the home page or protected area with success message preserved
         load('allproducts.php');
     } else {
         // Invalid credentials

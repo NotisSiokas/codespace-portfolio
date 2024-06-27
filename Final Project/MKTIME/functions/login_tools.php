@@ -6,7 +6,7 @@ function load($page = 'login.php') {
     $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
 
     // Define the correct path to your views folder
-    $viewsPath = '/MKTIME/Final Project/MKTIME/views/';
+    $viewsPath = '/views/';
 
     $url = $baseUrl . $viewsPath . $page;
 

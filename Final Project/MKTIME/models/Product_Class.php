@@ -19,14 +19,14 @@ class Product_Class {
 
     // READ
     public function getAllProducts() {
-        $result = $this->link->query("SELECT * FROM products");
-
-        if (!$result) {
-            error_log("Error in getAllProducts: " . mysqli_error($this->link));
-            return [];
-        }
-
-        return $result->fetch_all(MYSQLI_ASSOC);
+        $stmt = $this->link->prepare("SELECT * FROM products"); 
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $products = [];
+        while ($row = $result->fetch_assoc()) {
+            $products[] = $row;
+        }        
+        return $products;
     }
 
     public function getProductById($id) {

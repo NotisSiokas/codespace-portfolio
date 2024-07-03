@@ -31,5 +31,76 @@ class ProductApiController {
         }
     }
 
-    // Add methods for createProduct, updateProduct, and deleteProduct as needed
+    public function createProduct() {
+        header('Content-Type: application/json');
+
+        $requestData = json_decode(file_get_contents('php://input'), true);
+
+        // Input Validation: Check for required fields
+        $requiredFields = ['name', 'description', 'price', 'image_url', 'stock'];
+        foreach ($requiredFields as $field) {
+            if (empty($requestData[$field])) {
+                echo json_encode(['error' => 'Missing required field: ' . $field]);
+                return;
+            }
+        }
+
+        // Additional validation (optional)
+        if ($requestData['price'] <= 0) {
+            echo json_encode(['error' => 'Price must be greater than 0']);
+            return;
+        }
+        if ($requestData['stock'] < 0) {
+            echo json_encode(['error' => 'Stock cannot be negative']);
+            return;
+        }
+
+        try {
+            // Create the product using your Product_Class model
+            $productId = $this->product->createProduct(
+                $requestData['name'],
+                $requestData['description'],
+                $requestData['price'],
+                $requestData['image_url'],
+                $requestData['stock']
+            );
+
+            // Check if product creation was successful
+            if ($productId) {
+                echo json_encode(['success' => true, 'message' => 'Product created successfully', 'product_id' => $productId]);
+            } else {
+                echo json_encode(['error' => 'Product creation failed']);
+            }
+        } catch (Exception $e) {
+            error_log("Error creating product: " . $e->getMessage());
+            echo json_encode(['error' => 'Error creating product']);
+        }
+    }
+
+    //  methods for , updateProduct, and deleteProduct to be added
+
+    public function deleteProduct($id) {
+        header('Content-Type: application/json');
+    
+        try {
+            // Check if the product exists
+            $existingProduct = $this->product->getProductById($id);
+            if (!$existingProduct) {
+                echo json_encode(['error' => 'Product not found']);
+                return;
+            }
+    
+            // Delete the product
+            $affectedRows = $this->product->deleteProduct($id);
+    
+            if ($affectedRows > 0) {
+                echo json_encode(['success' => true, 'message' => 'Product deleted successfully']);
+            } else {
+                echo json_encode(['error' => 'Product deletion failed']);
+            }
+        } catch (Exception $e) {
+            error_log("Error deleting product: " . $e->getMessage());
+            echo json_encode(['error' => 'Error deleting product']);
+        }
+    }
 }

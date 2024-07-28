@@ -103,4 +103,24 @@ class ProductApiController {
             echo json_encode(['error' => 'Error deleting product']);
         }
     }
+
+    public function getProduct($id) {
+        header('Content-Type: application/json');
+    
+        try {
+            $product = $this->product->getProductById($id);
+            if ($product) {
+                echo json_encode($product);
+            } else {
+                http_response_code(404); // Not Found
+                echo json_encode(['error' => 'Product not found']);
+            }
+        } catch (Exception $e) {
+            error_log("Error fetching product: " . $e->getMessage());
+            http_response_code(500); // Internal Server Error
+            echo json_encode(['error' => 'Error fetching product']);
+        }
+    }
+
+    
 }

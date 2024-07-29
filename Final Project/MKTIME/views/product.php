@@ -75,7 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
         throw new Error('Network response was not ok');
       }
       const product = await response.json();
-      console.log('Product:', product); // Log product data
       return product;
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
@@ -91,11 +90,10 @@ document.addEventListener('DOMContentLoaded', () => {
         throw new Error('Network response was not ok');
       }
       const relatedProducts = await response.json();
-      console.log('Related Products:', relatedProducts); // Log related products
-      return Array.isArray(relatedProducts.related_products) ? relatedProducts.related_products : []; // Ensure it's an array
+      return Array.isArray(relatedProducts.related_products) ? relatedProducts.related_products : [];
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
-      return []; // Return empty array in case of error
+      return [];
     }
   }
 
@@ -114,23 +112,19 @@ document.addEventListener('DOMContentLoaded', () => {
   // Function to display the product details and color variations
   function displayProduct(product, relatedProducts) {
     const productDetailsDiv = document.getElementById('product-details');
-    productDetailsDiv.innerHTML = ''; // Clear previous content
+    productDetailsDiv.innerHTML = '';
 
-    // Create container for product image and details
     const containerDiv = document.createElement('div');
     containerDiv.classList.add('product-container');
 
-    // Create product image element
     const mainImg = document.createElement('img');
     mainImg.src = `/assets/images/${product.image_url}`;
     mainImg.alt = product.name;
     mainImg.classList.add('product-image', 'card-img-top', 'mb-5', 'mb-md-0');
 
-    // Create details section
     const detailsDiv = document.createElement('div');
     detailsDiv.classList.add('product-details');
     
-    // Set the inner HTML for product details and variations
     detailsDiv.innerHTML = `
       <h1 class="display-5 fw-bolder">${product.name}</h1>
       <div class="fs-5 mb-5">
@@ -147,45 +141,44 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     `;
 
-    // Append image and details containers to the main container
     containerDiv.appendChild(mainImg);
     containerDiv.appendChild(detailsDiv);
-
-    // Append the main container to the product details div
     productDetailsDiv.appendChild(containerDiv);
 
-    // Create and append related product images to the product-variations div
     const variationsDiv = detailsDiv.querySelector('#product-variations');
     if (Array.isArray(relatedProducts)) {
-      // Create and append the current product image first
       const currentProductImg = document.createElement('img');
       currentProductImg.src = `/assets/images/${product.image_url}`;
       currentProductImg.alt = product.name;
-      currentProductImg.classList.add('current-product-image', 'not-clickable'); // Make it non-clickable
+      currentProductImg.classList.add('product-variation-image', 'current-product-image', 'not-clickable');
       variationsDiv.appendChild(currentProductImg);
 
-      // Add related products images
       relatedProducts.forEach(relatedProduct => {
         const variationImg = document.createElement('img');
         variationImg.src = `/assets/images/${relatedProduct.image_url}`;
         variationImg.alt = relatedProduct.name;
         variationImg.classList.add('product-variation-image');
         variationImg.dataset.productId = relatedProduct.id;
-        if (relatedProduct.id === product.id) {
-          variationImg.classList.add('not-clickable'); // Make the current product image non-clickable
-        } else {
-          variationImg.addEventListener('click', () => {
-            window.location.href = `product.php?id=${relatedProduct.id}`;
-          });
-        }
+        variationImg.addEventListener('click', () => {
+          updateProductDetails(relatedProduct.id);
+        });
         variationsDiv.appendChild(variationImg);
       });
-    } else {
-      console.error('Related products data is not an array:', relatedProducts);
     }
   }
 
-  // Function to add to cart (implementation needed)
+  // Function to update product details dynamically
+  async function updateProductDetails(productId) {
+    const product = await fetchProductData(productId);
+    const relatedProducts = await fetchRelatedProducts(productId);
+
+    if (!product) {
+      document.getElementById('product-details').innerHTML = '<p class="text-danger">Product not found.</p>';
+    } else {
+      displayProduct(product, relatedProducts);
+    }
+  }
+
   function addToCart(productId) {
     const quantity = document.getElementById('inputQuantity').value;
     // Implement your add-to-cart logic using the API

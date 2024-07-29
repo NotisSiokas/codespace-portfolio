@@ -163,14 +163,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Function to change the product image when a variation is selected
   function changeProductImage(productId) {
-    fetchProductData(productId).then(product => {
-      const img = document.querySelector('.product-image');
-      if (img) {
-        img.src = `/assets/images/${product.image_url}`;
-        img.alt = product.name;
-      }
-    });
-  }
+    // Update the URL with the new product ID
+    const newUrl = `/views/product.php?id=${productId}`;
+    window.location.href = newUrl; // Redirect to the new URL
+}
 
   // Function to add to cart (implementation needed)
   function addToCart(productId) {

@@ -71,37 +71,32 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  // Function to fetch product details from the API
   async function fetchProductData(productId) {
     try {
       const response = await fetch(`/api/products/${productId}`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-      const product = await response.json();
-      return product;
+      return await response.json();
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
       return null;
     }
   }
 
-  // Function to fetch related products (color variations) from the API
   async function fetchRelatedProducts(productId) {
     try {
       const response = await fetch(`/api/products/${productId}/related`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-      const relatedProducts = await response.json();
-      return Array.isArray(relatedProducts.related_products) ? relatedProducts.related_products : [];
+      return (await response.json()).related_products || [];
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
       return [];
     }
   }
 
-  // Initialize the page
   async function initializePage() {
     const product = await fetchProductData(productId);
     const relatedProducts = await fetchRelatedProducts(productId);
@@ -113,7 +108,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Function to display the product details and color variations
   function displayProduct(product, relatedProducts) {
     const productDetailsDiv = document.getElementById('product-details');
     productDetailsDiv.innerHTML = '';
@@ -136,13 +130,12 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
       <p class="lead">${product.description}</p>
       <div id="product-variations" class="mt-3"></div>
-      <div class="d-flex">
-        <input class="form-control text-center me-3" id="inputQuantity" type="number" value="1" style="max-width: 3rem" />
-        <button class="btn btn-outline-dark flex-shrink-0" onclick="addToCart(${product.id})"> 
-            <i class="bi-cart-fill me-1"></i>
-            Add to cart
+      <form action="../functions/added.php" method="get">
+        <input type="hidden" name="id" value="${product.id}">
+        <button type="submit" class="btn btn-outline-dark bi-cart-fill">
+            Add to Cart
         </button>
-      </div>
+      </form>
     `;
 
     containerDiv.appendChild(mainImg);
@@ -172,7 +165,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Function to update product details dynamically
   async function updateProductDetails(productId) {
     const product = await fetchProductData(productId);
     const relatedProducts = await fetchRelatedProducts(productId);
@@ -182,11 +174,9 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       displayProduct(product, relatedProducts);
       
-      // Update the URL without reloading the page
       const newUrl = `/views/product.php?id=${productId}`;
       history.pushState(null, '', newUrl);
 
-      // Handle opacity for the selected product
       document.querySelectorAll('.product-variation-image').forEach(img => {
         img.classList.remove('selected'); // Remove 'selected' class from all images
       });
@@ -195,11 +185,6 @@ document.addEventListener('DOMContentLoaded', () => {
         newSelectedImg.classList.add('selected'); // Add 'selected' class to the newly selected image
       }
     }
-  }
-
-  function addToCart(productId) {
-    const quantity = document.getElementById('inputQuantity').value;
-    // Implement your add-to-cart logic using the API
   }
 
   initializePage();

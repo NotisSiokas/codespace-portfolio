@@ -4,7 +4,6 @@
 // Include essential header, navigation, and header elements
 include 'head.php';
 include 'navbar.php';
-include 'header.php';
 
 // Error handling: Check if a product ID is provided
 if (!isset($_GET['id'])) {
@@ -31,8 +30,9 @@ $productId = $_GET['id'];
     cursor: pointer;
   }
 
-  .active-variation {
-    border: 2px solid #007bff; /* Highlight active variation */
+  .product-variation-image.not-clickable {
+    cursor: default; /* Make the image appear non-clickable */
+    opacity: 0.5; /* Optionally, you can use opacity to visually distinguish it */
   }
 
   .product-container {
@@ -43,6 +43,18 @@ $productId = $_GET['id'];
   .product-details {
     flex: 1; /* Take up the remaining space */
     padding-left: 20px; /* Space between image and details */
+  }
+
+  #product-variations {
+    display: flex;
+    gap: 10px; /* Space between images */
+    align-items: center; /* Align images in the center */
+  }
+
+  .current-product-image {
+    width: 100px; /* Size of the current product image */
+    height: auto;
+    margin-right: 10px;
   }
 </style>
 
@@ -145,28 +157,33 @@ document.addEventListener('DOMContentLoaded', () => {
     // Create and append related product images to the product-variations div
     const variationsDiv = detailsDiv.querySelector('#product-variations');
     if (Array.isArray(relatedProducts)) {
-        relatedProducts.forEach(relatedProduct => {
-            const variationImg = document.createElement('img');
-            variationImg.src = `/assets/images/${relatedProduct.image_url}`;
-            variationImg.alt = relatedProduct.name;
-            variationImg.classList.add('product-variation-image');
-            variationImg.dataset.productId = relatedProduct.id;
-            variationImg.addEventListener('click', () => {
-                changeProductImage(relatedProduct.id);
-            });
-            variationsDiv.appendChild(variationImg);
-        });
+      // Create and append the current product image first
+      const currentProductImg = document.createElement('img');
+      currentProductImg.src = `/assets/images/${product.image_url}`;
+      currentProductImg.alt = product.name;
+      currentProductImg.classList.add('current-product-image', 'not-clickable'); // Make it non-clickable
+      variationsDiv.appendChild(currentProductImg);
+
+      // Add related products images
+      relatedProducts.forEach(relatedProduct => {
+        const variationImg = document.createElement('img');
+        variationImg.src = `/assets/images/${relatedProduct.image_url}`;
+        variationImg.alt = relatedProduct.name;
+        variationImg.classList.add('product-variation-image');
+        variationImg.dataset.productId = relatedProduct.id;
+        if (relatedProduct.id === product.id) {
+          variationImg.classList.add('not-clickable'); // Make the current product image non-clickable
+        } else {
+          variationImg.addEventListener('click', () => {
+            window.location.href = `product.php?id=${relatedProduct.id}`;
+          });
+        }
+        variationsDiv.appendChild(variationImg);
+      });
     } else {
-        console.error('Related products data is not an array:', relatedProducts);
+      console.error('Related products data is not an array:', relatedProducts);
     }
   }
-
-  // Function to change the product image when a variation is selected
-  function changeProductImage(productId) {
-    // Update the URL with the new product ID
-    const newUrl = `/views/product.php?id=${productId}`;
-    window.location.href = newUrl; // Redirect to the new URL
-}
 
   // Function to add to cart (implementation needed)
   function addToCart(productId) {

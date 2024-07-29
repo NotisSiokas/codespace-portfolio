@@ -28,11 +28,15 @@ $productId = $_GET['id'];
     margin-right: 10px;
     margin-bottom: 20px; 
     cursor: pointer;
+    opacity: 1; /* Default opacity */
   }
 
   .product-variation-image.not-clickable {
     cursor: default; /* Make the image appear non-clickable */
-    opacity: 0.5; /* Optionally, you can use opacity to visually distinguish it */
+  }
+
+  .product-variation-image.selected {
+    opacity: 0.5; /* Lower opacity for the selected product image */
   }
 
   .product-container {
@@ -150,7 +154,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const currentProductImg = document.createElement('img');
       currentProductImg.src = `/assets/images/${product.image_url}`;
       currentProductImg.alt = product.name;
-      currentProductImg.classList.add('product-variation-image', 'current-product-image', 'not-clickable');
+      currentProductImg.classList.add('product-variation-image', 'current-product-image', 'not-clickable', 'selected');
+      currentProductImg.dataset.productId = product.id; // Added data-product-id attribute for identification
       variationsDiv.appendChild(currentProductImg);
 
       relatedProducts.forEach(relatedProduct => {
@@ -176,6 +181,19 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('product-details').innerHTML = '<p class="text-danger">Product not found.</p>';
     } else {
       displayProduct(product, relatedProducts);
+      
+      // Update the URL without reloading the page
+      const newUrl = `/views/product.php?id=${productId}`;
+      history.pushState(null, '', newUrl);
+
+      // Handle opacity for the selected product
+      document.querySelectorAll('.product-variation-image').forEach(img => {
+        img.classList.remove('selected'); // Remove 'selected' class from all images
+      });
+      const newSelectedImg = document.querySelector(`.product-variation-image[data-product-id="${productId}"]`);
+      if (newSelectedImg) {
+        newSelectedImg.classList.add('selected'); // Add 'selected' class to the newly selected image
+      }
     }
   }
 

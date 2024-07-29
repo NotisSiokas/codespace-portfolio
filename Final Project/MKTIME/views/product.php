@@ -14,7 +14,6 @@ if (!isset($_GET['id'])) {
 }
 
 $productId = $_GET['id'];
-
 ?>
 
 <style>
@@ -31,139 +30,164 @@ $productId = $_GET['id'];
     margin-bottom: 20px; 
     cursor: pointer;
   }
+
+  .active-variation {
+    border: 2px solid #007bff; /* Highlight active variation */
+  }
+
+  .product-container {
+    display: flex;
+    align-items: flex-start; /* Align items to the top */
+  }
+
+  .product-details {
+    flex: 1; /* Take up the remaining space */
+    padding-left: 20px; /* Space between image and details */
+  }
 </style>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // Define the product variations
-    const productVariations = [
-      {
-        id: 34,
-        name: 'Red Watch',
-        price: 100,
-        description: 'This is the red watch description.',
-        image_url: 'watchRed.jpg'
-      },
-      {
-        id: 35,
-        name: 'Green Watch',
-        price: 100,
-        description: 'This is the green watch description.',
-        image_url: 'watchGreen.jpg'
-      },
-      {
-        id: 36,
-        name: 'Blue Watch',
-        price: 100,
-        description: 'This is the blue watch description.',
-        image_url: 'watchBlue.jpg'
+document.addEventListener('DOMContentLoaded', () => {
+  const productId = new URLSearchParams(window.location.search).get('id');
+
+  if (!productId) {
+    document.getElementById('product-details').innerHTML = '<p class="text-danger">Product not found.</p>';
+    return;
+  }
+
+  // Function to fetch product details from the API
+  async function fetchProductData(productId) {
+    try {
+      const response = await fetch(`/api/products/${productId}`);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
       }
-    ];
+      const product = await response.json();
+      console.log('Product:', product); // Log product data
+      return product;
+    } catch (error) {
+      console.error('There was a problem with the fetch operation:', error);
+      return null;
+    }
+  }
 
-    // Get the current product based on the product ID from URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const productId = parseInt(urlParams.get('id')); // Get the product ID from the URL
+  // Function to fetch related products (color variations) from the API
+  async function fetchRelatedProducts(productId) {
+    try {
+      const response = await fetch(`/api/products/${productId}/related`);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const relatedProducts = await response.json();
+      console.log('Related Products:', relatedProducts); // Log related products
+      return Array.isArray(relatedProducts.related_products) ? relatedProducts.related_products : []; // Ensure it's an array
+    } catch (error) {
+      console.error('There was a problem with the fetch operation:', error);
+      return []; // Return empty array in case of error
+    }
+  }
 
-    console.log('Product ID from URL:', productId); // Debugging
+  // Initialize the page
+  async function initializePage() {
+    const product = await fetchProductData(productId);
+    const relatedProducts = await fetchRelatedProducts(productId);
 
-    // Find the current product from the variations list
-    const currentProduct = productVariations.find(product => product.id === productId);
-    console.log('Current Product:', currentProduct); // Debugging
-
-    if (!currentProduct) {
+    if (!product) {
       document.getElementById('product-details').innerHTML = '<p class="text-danger">Product not found.</p>';
     } else {
-      // Display the current product details
-      displayProduct(currentProduct);
-      // Display the product variations
-      displayVariations(currentProduct);
+      displayProduct(product, relatedProducts);
     }
+  }
 
-    // Function to display the product details
-    function displayProduct(product) {
-      const productDetailsDiv = document.getElementById('product-details');
-      productDetailsDiv.innerHTML = ''; // Clear previous content
-      productDetailsDiv.classList.add('d-flex'); // Add Flexbox class to the parent container
+  // Function to display the product details and color variations
+  function displayProduct(product, relatedProducts) {
+    const productDetailsDiv = document.getElementById('product-details');
+    productDetailsDiv.innerHTML = ''; // Clear previous content
 
-      console.log('Displaying Product:', product); // Debugging
+    // Create container for product image and details
+    const containerDiv = document.createElement('div');
+    containerDiv.classList.add('product-container');
 
-      // Create image element
-      const img = document.createElement('img');
-      img.src = `/assets/images/${product.image_url}`;
-      img.alt = product.name;
-      img.classList.add('product-image', 'card-img-top', 'mb-5', 'mb-md-0');
-      productDetailsDiv.appendChild(img);
+    // Create product image element
+    const mainImg = document.createElement('img');
+    mainImg.src = `/assets/images/${product.image_url}`;
+    mainImg.alt = product.name;
+    mainImg.classList.add('product-image', 'card-img-top', 'mb-5', 'mb-md-0');
 
-      // Create details section
-      const detailsDiv = document.createElement('div');
-      detailsDiv.classList.add('col-md-6');
-      detailsDiv.style.alignSelf = "flex-start";
-      detailsDiv.innerHTML = `
-        <h1 class="display-5 fw-bolder">${product.name}</h1>
-        <div class="fs-5 mb-5">
-          <span>$${product.price}</span>
-        </div>
-        <p class="lead">${product.description}</p>
-        <div id="product-variations" class="mt-3"></div>
-        <div class="d-flex">
-          <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" />
-          <button class="btn btn-outline-dark flex-shrink-0" onclick="addToCart(${product.id})"> 
-              <i class="bi-cart-fill me-1"></i>
-              Add to cart
-          </button>
-        </div>
-      `;
-      productDetailsDiv.appendChild(detailsDiv);
+    // Create details section
+    const detailsDiv = document.createElement('div');
+    detailsDiv.classList.add('product-details');
+    
+    // Set the inner HTML for product details and variations
+    detailsDiv.innerHTML = `
+      <h1 class="display-5 fw-bolder">${product.name}</h1>
+      <div class="fs-5 mb-5">
+        <span>$${product.price}</span>
+      </div>
+      <p class="lead">${product.description}</p>
+      <div id="product-variations" class="mt-3"></div>
+      <div class="d-flex">
+        <input class="form-control text-center me-3" id="inputQuantity" type="number" value="1" style="max-width: 3rem" />
+        <button class="btn btn-outline-dark flex-shrink-0" onclick="addToCart(${product.id})"> 
+            <i class="bi-cart-fill me-1"></i>
+            Add to cart
+        </button>
+      </div>
+    `;
+
+    // Append image and details containers to the main container
+    containerDiv.appendChild(mainImg);
+    containerDiv.appendChild(detailsDiv);
+
+    // Append the main container to the product details div
+    productDetailsDiv.appendChild(containerDiv);
+
+    // Create and append related product images to the product-variations div
+    const variationsDiv = detailsDiv.querySelector('#product-variations');
+    if (Array.isArray(relatedProducts)) {
+        relatedProducts.forEach(relatedProduct => {
+            const variationImg = document.createElement('img');
+            variationImg.src = `/assets/images/${relatedProduct.image_url}`;
+            variationImg.alt = relatedProduct.name;
+            variationImg.classList.add('product-variation-image');
+            variationImg.dataset.productId = relatedProduct.id;
+            variationImg.addEventListener('click', () => {
+                changeProductImage(relatedProduct.id);
+            });
+            variationsDiv.appendChild(variationImg);
+        });
+    } else {
+        console.error('Related products data is not an array:', relatedProducts);
     }
+  }
 
-    // Function to display the product variations
-    function displayVariations(currentProduct) {
-      const variationsDiv = document.getElementById('product-variations');
-      variationsDiv.innerHTML = ''; // Clear previous variations
-
-      console.log('Displaying Variations for Product:', currentProduct); // Debugging
-
-      productVariations.forEach(variation => {
-        if (variation.id !== currentProduct.id) {
-          const variationLink = document.createElement('a');
-          variationLink.addEventListener('click', () => changeProductVariation(variation.id));
-
-          const variationImg = document.createElement('img');
-          variationImg.src = `/assets/images/${variation.image_url}`;
-          variationImg.alt = variation.name;
-          variationImg.classList.add('product-variation-image');
-
-          variationLink.appendChild(variationImg);
-          variationsDiv.appendChild(variationLink);
-        }
-      });
-    }
-
-    // Function to change the product variation
-    function changeProductVariation(variationId) {
-      const variation = productVariations.find(v => v.id === variationId);
-      if (variation) {
-        console.log('Changing to Variation:', variation); // Debugging
-        displayProduct(variation);
-        displayVariations(variation);
+  // Function to change the product image when a variation is selected
+  function changeProductImage(productId) {
+    fetchProductData(productId).then(product => {
+      const img = document.querySelector('.product-image');
+      if (img) {
+        img.src = `/assets/images/${product.image_url}`;
+        img.alt = product.name;
       }
-    }
+    });
+  }
 
-    function addToCart(productId) {
-      const quantity = document.getElementById('inputQuantity').value;
-      // Implement your add-to-cart logic using the API
-    }
-  });
+  // Function to add to cart (implementation needed)
+  function addToCart(productId) {
+    const quantity = document.getElementById('inputQuantity').value;
+    // Implement your add-to-cart logic using the API
+  }
+
+  initializePage();
+});
 </script>
 
 <section class="py-5">
   <div class="container px-4 px-lg-5 my-5">
     <div class="row gx-4 gx-lg-5 align-items-center" id="product-details">
+      <!-- Product details will be loaded here -->
     </div>
   </div>
 </section>
 
-<?php
-// Include footer
-include 'footer.php';
-?>
+<?php include 'footer.php'; ?>

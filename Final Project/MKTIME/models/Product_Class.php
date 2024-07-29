@@ -52,4 +52,37 @@ class Product_Class {
         $stmt->execute();
         return $stmt->affected_rows;
     }
+
+    // Manage Relationships
+
+    public function getRelatedProducts($id) {
+        $stmt = $this->link->prepare("
+            SELECT p.* 
+            FROM product_relationships pr
+            JOIN products p ON pr.related_product_id = p.id
+            WHERE pr.product_id = ?
+        ");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $relatedProducts = [];
+        while ($row = $result->fetch_assoc()) {
+            $relatedProducts[] = $row;
+        }        
+        return $relatedProducts;
+    }    
+
+    public function addProductRelationship($productId, $relatedProductId) {
+        $stmt = $this->link->prepare("INSERT INTO product_relationships (product_id, related_product_id) VALUES (?, ?)");
+        $stmt->bind_param("ii", $productId, $relatedProductId);
+        $stmt->execute();
+        return $stmt->affected_rows;
+    }
+
+    public function removeProductRelationship($productId, $relatedProductId) {
+        $stmt = $this->link->prepare("DELETE FROM product_relationships WHERE product_id = ? AND related_product_id = ?");
+        $stmt->bind_param("ii", $productId, $relatedProductId);
+        $stmt->execute();
+        return $stmt->affected_rows;
+    }
 }

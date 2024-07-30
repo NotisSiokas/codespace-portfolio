@@ -63,14 +63,16 @@ $productId = $_GET['id'];
 </style>
 
 <script>
+// Extract product ID from the URL query parameter
 document.addEventListener('DOMContentLoaded', () => {
   const productId = new URLSearchParams(window.location.search).get('id');
 
+  // Check if productId exists, otherwise display an error message
   if (!productId) {
     document.getElementById('product-details').innerHTML = '<p class="text-danger">Product not found.</p>';
     return;
   }
-
+  // Function to fetch product details from the API
   async function fetchProductData(productId) {
     try {
       const response = await fetch(`/api/products/${productId}`);
@@ -84,6 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // Function to fetch related products from the API
   async function fetchRelatedProducts(productId) {
     try {
       const response = await fetch(`/api/products/${productId}/related`);
@@ -97,6 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // Initialize the page: fetch product details and related products
   async function initializePage() {
     const product = await fetchProductData(productId);
     const relatedProducts = await fetchRelatedProducts(productId);
@@ -108,6 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // Display product details on the page
   function displayProduct(product, relatedProducts) {
     const productDetailsDiv = document.getElementById('product-details');
     productDetailsDiv.innerHTML = '';
@@ -148,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
       currentProductImg.src = `/assets/images/${product.image_url}`;
       currentProductImg.alt = product.name;
       currentProductImg.classList.add('product-variation-image', 'current-product-image', 'not-clickable', 'selected');
-      currentProductImg.dataset.productId = product.id; // Added data-product-id attribute for identification
+      currentProductImg.dataset.productId = product.id; 
       variationsDiv.appendChild(currentProductImg);
 
       relatedProducts.forEach(relatedProduct => {
@@ -165,6 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // Update product details based on the selected variation
   async function updateProductDetails(productId) {
     const product = await fetchProductData(productId);
     const relatedProducts = await fetchRelatedProducts(productId);
@@ -178,15 +184,15 @@ document.addEventListener('DOMContentLoaded', () => {
       history.pushState(null, '', newUrl);
 
       document.querySelectorAll('.product-variation-image').forEach(img => {
-        img.classList.remove('selected'); // Remove 'selected' class from all images
+        img.classList.remove('selected'); 
       });
       const newSelectedImg = document.querySelector(`.product-variation-image[data-product-id="${productId}"]`);
       if (newSelectedImg) {
-        newSelectedImg.classList.add('selected'); // Add 'selected' class to the newly selected image
+        newSelectedImg.classList.add('selected'); 
       }
     }
   }
-
+  // Start initializing the page when DOM content is loaded
   initializePage();
 });
 </script>

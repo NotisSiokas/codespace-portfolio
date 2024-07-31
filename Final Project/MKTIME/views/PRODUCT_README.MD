@@ -45,6 +45,3 @@ This page (`product.php`) is responsible for displaying detailed information abo
 - **API Endpoints:**  The `product.php` page relies on the following API endpoints:
     - `/api/products/{productId}`: Returns the details of a single product.
     - `/api/products/{productId}/related`: Returns related products (variations).
-- **Error Handling:**  The JavaScript code includes basic error handling to display a message if the product data cannot be fetched or if an error occurs during the API request.
-
-Feel free to customize and expand this README based on the specific details and features of your implementation.

@@ -31,7 +31,7 @@ This page (`product.php`) is responsible for displaying detailed information abo
 - **PHP:** Server-side scripting for basic page structure and API interaction.
 - **JavaScript:** Dynamic content fetching and updating, event handling, and DOM manipulation.
 - **HTML/CSS:** Page layout and styling.
-- **Bootstrap (optional):**  CSS framework for styling (if used in your project).
+- **Bootstrap:**  CSS framework for styling.
 - **Fetch API:** JavaScript API for making asynchronous HTTP requests to your API.
 
 ## How to Use (For Developers)
